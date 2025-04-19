@@ -1,32 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Meta tags for character set and responsive design -->
+    <meta charset="UTF-8" /> <!-- Specifies the character encoding as UTF-8 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /> <!-- Makes the page responsive on all devices -->
+
+    <!-- Favicon for the browser tab -->
     <link
       rel="icon"
       href="/images/pngtree-quiz-logo-icon-vector-png-image_3129090.jpg"
       type="image/jpg"
     />
+
+    <!-- Link to the external stylesheet for styling the page -->
     <link rel="stylesheet" href="/style.css">
+
+    <!-- Title that appears in the browser tab -->
     <title>Guess the capital</title>
   </head>
   <body>
+    <!-- Main game container -->
     <div class="game">
       
-<div class="card">
-    <h3 class="score">Score: <%= score %></h3>
-    <h1 class="quest">
-       <%= quest %>
-    </h1>
-    <form action="/submit" method="post">
-      <input type="text" name="answer" class="answer">
-      <input type="submit"  class="submit" value="SUBMIT" >
-    </form>
+      <!-- Card container to display the question and form -->
+      <div class="card">
+        <!-- Displays the player's current score -->
+        <h3 class="score">Score: <%= score %></h3>
+        
+        <!-- Displays the question dynamically from the server -->
+        <h1 class="quest">
+          <%= quest %>
+        </h1>
 
-    
-</div>
-
+        <!-- Form for submitting the answer -->
+        <form action="/submit" method="post"> <!-- Sends data to the /submit endpoint via POST -->
+          <input type="text" name="answer" class="answer"> <!-- Input field for the player's answer -->
+          <input type="submit"  class="submit" value="SUBMIT" > <!-- Submit button for sending the answer -->
+        </form>
+      </div>
     </div>
   </body>
 </html>

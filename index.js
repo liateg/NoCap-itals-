@@ -1,69 +1,89 @@
+// Importing required modules
+import express from "express"; // Express framework for building the server.
+import ejs from "ejs"; // EJS templating engine for rendering views.
+import pg from "pg"; // PostgreSQL library for database operations.
+import bodyParser from "body-parser"; // Middleware to parse form data from the request body.
 
-import express from "express";
-import ejs from "ejs"
-import pg from "pg";
-import bodyParser from "body-parser";
+// Database setup: PostgreSQL connection details
+const db = new pg.Client({
+  user: "postgres", // Database username
+  host: "localhost", // Host (usually localhost for local development)
+  database: "country", // Name of the database to connect to
+  // Add password for authentication
+  port: 5432, // Default PostgreSQL port
+});
 
-const app=express()
-const port =3000;
+// Initialize Express app
+const app = express();
+const port = 3000; // Server will listen on this port
 
-let quiz = [
-    { country: "France", capital:"Paris" },
-    { country: "United Kingdom", capital: "London" },
-    { country: "United States of America", capital: "New York" },
-  ];
-let score=0
-let rcountry
+// Connect to the database
+db.connect();
 
-function startgame(){
+// Fetching quiz data from the database
+let quiz = []; // Array to store quiz questions from the database
+db.query("SELECT * FROM capitals", (err, res) => {
+  if (err) {
+    // If there's an error executing the query, log it
+    console.error("Error executing query", err.stack);
+  } else {
+    // Store the rows (questions) from the database in the `quiz` array
+    quiz = res.rows;
+    console.log(quiz.length); // Log the number of quiz questions fetched
+  }
+  db.end(); // Close the database connection after query execution
+});
 
-rcountry=quiz[Math.round(Math.random(quiz.length-1))]
-console.log(rcountry)
+// Game variables
+let score = 0; // Tracks the player's score
+let rcountry; // Randomly selected country for the current question
+
+// Function to start the game by selecting a random question
+function startgame() {
+  rcountry = quiz[Math.round(Math.random() * quiz.length)]; // Select a random country from the `quiz` array
+  console.log(rcountry); // Log the selected country for debugging
 }
-let data={}
-// app.use(express.json())
-// Middleware
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static("public"))
 
-app.get('/',(req,res)=>{
-    startgame()
-    
-    score=0
-    data={
-        score:score,
-        quest:rcountry.country
-    }
-    
+// Middleware setup
+app.use(bodyParser.urlencoded({ extended: true })); // Parse URL-encoded form data
+app.use(express.static("public")); // Serve static files from the "public" directory
 
-    
-    res.render("index.ejs",data)
-    
-})
-app.post("/submit",(req,res)=>{
-    console.log(req.body.answer==rcountry.capital)
-    console.log(req.body)
-    console.log(rcountry.capital)
-    if(req.body.answer==rcountry.capital){
-        score++
-        startgame()
-        data={
-            score:score,
-            quest:rcountry.country
-        }
-        res.render("index.ejs",data)
-    }
-    else{
-        
-        // alert(`Incorrect answer the right answer is ${rcountry.capital} Your score was ${score} click okay to play again'`)
-        res.redirect("/")   
-    }
+// Route: Home page
+app.get("/", (req, res) => {
+  startgame(); // Start the game by selecting a random question
 
-    
-})
+  score = 0; // Reset the score when the player starts a new game
+  data = {
+    score: score, // Initialize score in the data object
+    quest: rcountry.country, // Pass the selected country to the template
+  };
 
+  res.render("index.ejs", data); // Render the "index.ejs" template with game data
+});
 
+// Route: Handling the form submission (answer submission)
+app.post("/submit", (req, res) => {
+  console.log(req.body.answer == rcountry.capital); // Check if the answer matches the capital
+  console.log(req.body); // Log the form data submitted by the user
+  console.log(rcountry.capital); // Log the correct capital for debugging
 
-app.listen(port,()=>{
-    console.log(`listenig to prt ${port}`)
-})
+  // Check if the submitted answer is correct
+  if (req.body.answer.toUpperCase().trim() == rcountry.capital.toUpperCase().trim()) {
+    score++; // Increment the score
+    startgame(); // Select a new random country
+    data = {
+      score: score, // Update the score in the data object
+      quest: rcountry.country, // Pass the new country to the template
+    };
+    res.render("index.ejs", data); // Render the updated game screen
+  } else {
+    // Redirect to the home page if the answer is incorrect
+    // Optionally, display an alert to notify the player of the correct answer
+    res.redirect("/");
+  }
+});
+
+// Start the server
+app.listen(port, () => {
+  console.log(`Listening to port ${port}`); // Log the port number for debugging
+});

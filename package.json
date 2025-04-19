@@ -1,5 +1,9 @@
 {
-  "name": "capitalquiz",
+  "name": "nocap-itals",
+"repository": {
+  "type": "git",
+  "url": "git+https://github.com/liateg/NoCap-itals-.git"
+},
   "version": "1.0.0",
   "main": "index.js",
   "type": "module",
