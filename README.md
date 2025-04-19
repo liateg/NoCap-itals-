@@ -1,4 +1,4 @@
-# Guess the Capital
+# NoCap(itals)
 
 ## Overview
 This is a simple web-based quiz game that tests your knowledge of world capitals. The game randomly selects a country and prompts you to guess its capital city. Your score increases with each correct answer.
