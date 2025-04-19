@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="icon"
+      href="/images/pngtree-quiz-logo-icon-vector-png-image_3129090.jpg"
+      type="image/jpg"
+    />
+    <link rel="stylesheet" href="/style.css">
+    <title>Guess the capital</title>
+  </head>
+  <body>
+    <div class="game">
+      
+<div class="card">
+    <h3 class="score">Score: <%= score %></h3>
+    <h1 class="quest">
+       <%= quest %>
+    </h1>
+    <form action="/submit" method="post">
+      <input type="text" name="answer" class="answer">
+      <input type="submit"  class="submit" value="SUBMIT" >
+    </form>
+
+    
+</div>
+
+    </div>
+  </body>
+</html>

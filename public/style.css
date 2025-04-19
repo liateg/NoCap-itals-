@@ -1,0 +1,57 @@
+*{
+    margin: 0;
+    padding:0;
+    box-sizing: border-box;   
+   }
+
+   .game{
+    background-image: url("./images/7227553.jpg");
+    backdrop-filter: blur(10px);
+    background-repeat: no-repeat;
+    background-attachment: center;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+   }
+.card h3{
+    align-self: self-start;
+}
+.card h1, .card input{
+    margin-bottom: 10px;
+}
+.submit{
+    padding: 10px 60px;
+    color: aliceblue;
+    background: linear-gradient(-90deg,#1c378d,#4d9de3);
+    outline: none;
+    border-radius: 20px;
+}
+.answer{
+    width: 50vh;
+    height: 5vh;
+    background-color: #99b4f9;
+}
+   .card{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+ 
+    width: 100%;
+    max-width: 540px;
+    background-color: rgb(177, 196, 229);
+    border-radius: 10px;
+    margin: 100px auto 20px;
+    padding: 40px 30px 70px;
+    
+    
+   }
+   form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+   }
